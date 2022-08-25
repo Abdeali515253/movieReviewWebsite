@@ -1,0 +1,103 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+<body>
+    <%- include("./partials/nav.ejs") %>
+        
+    <div class="details content">
+        <%- include("./partials/userInfo.ejs") %>
+        <h1>Title</h1>
+        <h2><%= movie.movieName %></h2>
+        <h3><b>Release Date: </b><%= movie.releaseDate %></h3>
+        <h3>Summary</h3>
+        <p><%= movie.movieSummary %></p>
+        <img src = "/posters/<%= movie.posters %>" alt="poster" width="150px">
+        <h4>Average Rating: <%= avgRating %></h4>
+
+        <div class ="casts">
+            <h3>Cast</h3>
+            <p>
+                <b>Actor Name: </b>
+                <br>
+                <% casts.forEach(casts => { %>
+                <ul>
+                    <li><%= casts.actorName %></li>    
+                </ul>
+                <% }) %>
+            </p>
+        </div>
+
+        <br>
+
+        <h3>Trailers</h3>
+        <div class = "trailers">
+            <% if (trailers.length > 0) { %>
+                <% trailers.forEach(trailer => { %>
+                    <div class = "eachTrailers">
+                    <a href="<%= trailer.trailerLink %>" target="_blank"><%= trailer.trailerName %></a>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+
+        <br>
+        <div class = "buttons">
+        <% if((loggedIn) && (user == "theAdmin") && (movie.deleteOrNotDelete == "NOTDELETE")) { %>
+            <form action="/deleteMovie/<%= movie.movieID %>" method="POST">
+                <button name="action" type="submit" value="DELETE">delete movie</button>
+            </form>
+        <% } else if((loggedIn) && (user == "theAdmin") && (movie.deleteOrNotDelete == "DELETE")) { %>
+            <form action="/deleteMovie/<%= movie.movieID %>" method="POST">
+                <button name="action" type="submit" value="NOTDELETE">un delete movie</button>
+            </form>
+        <% } %>
+
+        <% if((loggedIn) && (user == "theAdmin")) { %>
+        <form action="/editMovieInfo/<%= movie.movieID %>" method="GET">
+            <button name="action" type="submit">edit movie info</button>
+        </form>
+        <% } %>
+        </div>
+
+        <% if((loggedIn) && (user != "theAdmin")) { %>
+        <h4>Your Rating: <%= yourRating %></h4>
+        <form action="/addOrUpdateReview/<%= user %>/<%= movie.movieID %>" method="POST">
+            <label for="rating">Chose a rating</label>
+            <select id="rating" name="rating">
+                <option value="0">remove your rating</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <button>submit</button>
+        </form>
+        <% } else if (!loggedIn) { %>
+            <p>log in to add a rating</p>
+            <br>
+        <% } %>
+        
+        
+        <% if (loggedIn && (user != "theAdmin")) { %>
+            <form action="/insertReview/<%= movie.movieID %>/<%= user %>" method="POST">
+                <label for="review">Write your review</label>
+                <input type="text" id="review" name="review" required>
+            </form>
+          <% } else if(!loggedIn){ %>
+            <form action="/insertReview/<%= movie.movieID %>/nouser" method="POST">
+                <label for="review">Write your review</label>
+                <input type="text" id="review" name="review" required>
+            </form>
+        <% } %>
+        
+        <p><%= errMsg %></p>
+
+        <%- include("./partials/reviewDetails.ejs") %>
+    </div>
+</body>
+</html>

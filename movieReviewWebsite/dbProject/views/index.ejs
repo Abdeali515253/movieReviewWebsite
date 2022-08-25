@@ -1,0 +1,47 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+<body>
+
+  <%- include("./partials/nav.ejs") %>
+  
+
+  <div class="search-movie content">
+    <%- include("./partials/userInfo.ejs") %>
+  <br>
+  <form action="/movies/search" method="GET">
+    <label for="movieName">Enter Movie Name</label>
+    <input type="text" id="movieName" name="movieName" required>
+    <button>Submit</button>
+  </div>
+  </form>
+
+  <div class="movies content">
+  <% if (movies.length > 0) { %>
+      <% movies.forEach(movie => { %>
+        <% if ((loggedIn && user == "theAdmin") || (movie.deleteOrNotDelete == "NOTDELETE")) { %>
+          <a class="single" href="/movies/<%= movie.movieID %>">
+            <h3 class="title"><%= movie.movieName %></h3>
+            <h3 class="title">Rating: <%= movie.averageRating %></h3>
+            <img src = "/posters/<%= movie.posters %>" alt="poster" width="150px">
+            
+            <% if((loggedIn) && (user == "theAdmin") && (movie.deleteOrNotDelete == "NOTDELETE")) { %>
+              <h3 class="title">This movie is: <%= movie.deleteOrNotDelete %></h3>
+              <p>You are admin you can delete this movie by clicking an opening details page</p>
+            <% } %>
+            <% if((loggedIn) && (user == "theAdmin") && (movie.deleteOrNotDelete == "DELETE")) { %>
+              <h3 class="title">This movie is: <%= movie.deleteOrNotDelete %></h3>
+              <p>You are admin you can undo delete this movie by clicking an opening details page</p>
+            <% } %>
+          </a>
+        <% } %>
+      <% }) %>
+    <% } else { %>
+      <p>There are no movies to display...</p>
+    <% } %>
+  </div>
+
+  <% if((loggedIn) && (user == "theAdmin")) { %>
+        <a href = "/addMovie" ><button>add movie</button></a>
+  <% } %>
+</body>
+</html>

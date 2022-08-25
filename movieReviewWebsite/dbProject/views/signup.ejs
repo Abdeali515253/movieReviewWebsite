@@ -1,0 +1,24 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+<body>
+  <%- include("./partials/nav.ejs") %>
+  
+  <div class="login-form">
+    <h1>Signup Form</h1>
+    <form action="/addNewUser" method="POST">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+      <label for="rePassword">re enter assword</label>
+      <input type="password" id="rePassword" name="rePassword" required>
+      <button>Submit</button>
+    </form>
+    <% if (msg != ' ') { %>
+        <div class="error-message">
+          <p><%= msg %></p>
+        </div>
+    <% } %>
+  </div>
+</body>
+</html>

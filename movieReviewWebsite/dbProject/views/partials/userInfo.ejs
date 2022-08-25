@@ -1,0 +1,10 @@
+<% if (loggedIn) { %>
+    <h3>Username: <%= user %></h3>
+    <% if (userType == "BANNED") { %>
+      <p>You have been Banned, You can Write Reviews and<br>
+        Leave Ratings but they will not be affect any data, admin will un ban you at some point,<br>
+         you can still like reviews</p>
+    <% } %>
+  <% } else { %>
+    <h3>no one logged in</h3>
+<% } %>

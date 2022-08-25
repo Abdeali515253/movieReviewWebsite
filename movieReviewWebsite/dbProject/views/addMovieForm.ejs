@@ -1,0 +1,20 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+<body>
+  <%- include("./partials/nav.ejs") %>
+  <div class="login-form">
+    <h1>Movie Form</h1>
+    <form action="/addMovie" method="POST">
+      <label for="movieName">movie name</label>
+      <input type="text" id="movieName" name="movieName" required>
+      <label for="movieSummary">Summary</label>
+      <input type="text" id="movieSummary" name="movieSummary" required>
+      <label for="moviePoster">enter poster name with extension you will need to send image to web manager
+        seperately</label>
+    <input type="text" id="moviePoster" name="moviePoster" required>
+      <label for="release Date">release date</label>
+      <input type="date" id="releaseDate" name="releaseDate" required>
+      <button>Submit</button>
+    </form>
+</body>
+</html>

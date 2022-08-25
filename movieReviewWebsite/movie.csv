@@ -1,0 +1,4 @@
+movieID,movieName,movieSummary,posters,releaseDate,deleteOrNotDelete
+1,"Avengers 1","Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia quibusdam quaerat illo a modi tenetur ut blanditiis, illum quo consectetur recusandae excepturi natus impedit rem, tempora cum fuga quae in.",Avengers1.jpg,2012-05-11,NOTDELETE
+2,"Avengers Age of Ultron","Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia quibusdam quaerat illo a modi tenetur ut blanditiis, illum quo consectetur recusandae excepturi natus impedit rem, tempora cum fuga quae in.",AvengersAgeOfUltron.jpg,2015-05-01,NOTDELETE
+4,"Spider Man No Way Home","Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia quibusdam quaerat illo a modi tenetur ut blanditiis, illum quo consectetur recusandae excepturi natus impedit rem, tempora cum fuga quae in.",spiderManNoWayHome.jpg,2021-12-17,NOTDELETE

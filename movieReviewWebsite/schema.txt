@@ -1,0 +1,91 @@
+create database newDBProject;
+show databases;
+
+use newDBProject;
+
+CREATE TABLE `movies` (
+  `movieID` int NOT NULL auto_increment,
+  `movieName` varchar(100) DEFAULT NULL,
+  `movieSummary` varchar(500) DEFAULT NULL,
+  `posters` varchar(50) DEFAULT NULL,
+  `releaseDate` date DEFAULT NULL,
+  `deleteOrNotDelete` varchar(50) DEFAULT 'NOTDELETE',
+  PRIMARY KEY (`movieID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `users` (
+  `username` varchar(50) NOT NULL,
+  `userPassword` varchar(255) NOT NULL,
+  `userType` varchar(50) DEFAULT 'ACTIVE',
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `reviews` (
+  `reviewID` int NOT NULL AUTO_INCREMENT,
+  `review` varchar(500) NOT NULL,
+  `userWhoWroteReview` varchar(50) NOT NULL,
+  `whenCommentWasWritten` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `theMovieItIsReviewOf` int NOT NULL,
+  PRIMARY KEY (`reviewID`),
+  KEY `userWhoWroteReview` (`userWhoWroteReview`),
+  KEY `theMovieItIsReviewOf` (`theMovieItIsReviewOf`),
+  CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`userWhoWroteReview`) REFERENCES `users` (`username`),
+  CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`theMovieItIsReviewOf`) REFERENCES `movies` (`movieID`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `likes` (
+  `reviewID` int NOT NULL,
+  `userWhoWroteLiked` varchar(50) NOT NULL,
+  PRIMARY KEY (`reviewID`,`userWhoWroteLiked`),
+  KEY `userWhoWroteLiked` (`userWhoWroteLiked`),
+  CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`userWhoWroteLiked`) REFERENCES `users` (`username`),
+  CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`reviewID`) REFERENCES `reviews` (`reviewID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `ratings` (
+  `ratingID` int NOT NULL AUTO_INCREMENT,
+  `userWhoHasRated` varchar(50) NOT NULL,
+  `movieThatIsBeingRated` int NOT NULL,
+  `rating` int NOT NULL,
+  PRIMARY KEY (`ratingID`),
+  UNIQUE KEY `userWhoHasRated` (`userWhoHasRated`,`movieThatIsBeingRated`),
+  KEY `movieThatIsBeingRated` (`movieThatIsBeingRated`),
+  CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`userWhoHasRated`) REFERENCES `users` (`username`),
+  CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`movieThatIsBeingRated`) REFERENCES `movies` (`movieID`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+create table trailers (
+	trailerID int not null auto_increment,
+	trailerName varchar(50) not null,
+    trailerLink varchar(300) not null,
+    movieItsTrailerOf int NOT NULL,
+    FOREIGN KEY (movieItsTrailerOf) REFERENCES movies (movieID),
+    primary key (trailerID),
+    UNIQUE (trailerName, movieItsTrailerOf)
+);
+
+CREATE TABLE Actors(
+	actorID 	int not null,
+  	actorName 	varchar(20) not null,
+   	age			int not null,
+    	birthDate	date not null,
+    	primary key (actorID)
+);
+
+create table movie_cast(
+	actor_ID 		int not null,
+    actedinMovie 	int not null,
+    
+    primary key (actor_ID,actedinMovie),
+    foreign key (actor_ID) references actors(actorID),
+    foreign key (actedinMovie) references movies (movieID)
+);
+
+select * from actors;
+select * from movie_cast;
+select * from trailers;
+select * from ratings;
+select * from likes;
+select * from reviews;
+select * from movies;
+select * from users;

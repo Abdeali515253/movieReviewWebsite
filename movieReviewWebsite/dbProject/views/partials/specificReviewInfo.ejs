@@ -1,0 +1,40 @@
+<% reviews.forEach(review => { %>
+    <% if (review.isUserBannedOrNot == "ACTIVE" || (loggedIn && user == "theAdmin")) { %>
+        <p><b>review ID: </b><%= review.revID %></p>
+        <p><b>Date: </b><%= review.dateWritten %></p>
+        <p class="title"><b>username:</b> <%= review.reviewAuthor %></p>
+        <% if (loggedIn && user == "theAdmin") { %>
+            <p><b>user type: </b><%= review.isUserBannedOrNot %></p>
+            <% if (review.isUserBannedOrNot == "ACTIVE") { %>
+                <form action="/banUser/<%= review.reviewAuthor %>/<%= movie.movieID %>" method="POST">
+                    <button>ban user</button>
+                </form>
+            <% } else if(review.isUserBannedOrNot == "BANNED") { %>
+                <form action="/unBanUser/<%= review.reviewAuthor %>/<%= movie.movieID %>" method="POST">
+                    <button>un ban user</button>
+                </form>
+            <% } %>
+            
+        <% } %>
+
+        <p><b>Likes: </b><%= review.likeCount %>
+            <% if(loggedIn && (user != "theAdmin")) { %>
+                <% if (!likes.includes(review.revID)) { %>
+                    <form action="/addLike/<%= user %>/<%= review.revID %>/<%= movie.movieID %>" method="POST">
+                        <button><img src="/favorite_border_black_24dp.svg" alt="heart icon"></button>
+                    </form>
+                <% } else { %>
+                    <form action="/deleteLike/<%= user %>/<%= review.revID %>/<%= movie.movieID %>" method="POST">
+                        <button><img src="/favorite_black_24dp.svg" alt="heart icon"></button>
+                    </form>
+                <% } %>
+            <% } else if(!loggedIn){ %>
+                <u>you are not logged in you cannot like</u>
+            <% } %>
+        </p>
+        <div class = "eachReview">
+            <p><b>Review: </b><%= review.theReview %></p>
+        </div>
+        <br>
+    <% } %>
+<% }) %>
